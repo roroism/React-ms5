@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { getMovies, IGetMoviesResult } from "../api";
 import { makeImagePath } from "../utils";
 import { useState } from "react";
+import useWindowDimensions from "../Hooks/useWindowDimensions";
 
 const Wrapper = styled.div`
   background: black;
@@ -59,17 +60,17 @@ const Box = styled(motion.div)`
   font-size: 66px;
 `;
 
-const rowVariants = {
-  hidden: {
-    x: window.outerWidth - 22,
-  },
-  visible: {
-    x: 0,
-  },
-  exit: {
-    x: -window.outerWidth + 22,
-  },
-};
+// const rowVariants = {
+//   hidden: {
+//     x: window.outerWidth - 22,
+//   },
+//   visible: {
+//     x: 0,
+//   },
+//   exit: {
+//     x: -window.outerWidth + 22,
+//   },
+// };
 
 function Home() {
   const { data, isLoading } = useQuery<IGetMoviesResult>(
@@ -79,7 +80,14 @@ function Home() {
 
   // console.log(data, isLoading);
   const [index, setIndex] = useState(0);
-  const increaseIndex = () => setIndex((prev) => prev + 1);
+  const [leaving, setLeaving] = useState(false);
+  const width = useWindowDimensions();
+  const increaseIndex = () => {
+    if (leaving) return;
+    setLeaving(true);
+    setIndex((prev) => prev + 1);
+  };
+
   return (
     <Wrapper>
       {isLoading ? (
@@ -96,10 +104,13 @@ function Home() {
           <Slider>
             <AnimatePresence>
               <Row
-                variants={rowVariants}
-                initial="hidden"
-                animate="visible"
-                exit="exit"
+                // variants={rowVariants}
+                // initial="hidden"
+                // exit="exit"
+                // animate="visible"
+                initial={{ x: width - 5 }}
+                animate={{ x: 0 }}
+                exit={{ x: -width + 5 }}
                 transition={{ type: "tween", duration: 1 }}
                 key={index}
               >
