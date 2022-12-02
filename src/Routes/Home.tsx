@@ -184,7 +184,7 @@ function Home() {
     ["movies", "nowPlaying"],
     getMovies
   );
-
+  console.log("movies data : ", data);
   // console.log(data, isLoading);
   const [index, setIndex] = useState(0);
   const [leaving, setLeaving] = useState(false);
