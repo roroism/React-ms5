@@ -37,10 +37,7 @@ export interface IGetTvResult {
 
 export function getMovies() {
   return fetch(`${BASE_PATH}/movie/now_playing?api_key=${API_KEY}`).then(
-    (response) => {
-      console.log("movies response : ", response.json());
-      return response.json();
-    }
+    (response) => response.json()
   );
 }
 // https://api.themoviedb.org/3/movie/now_playing?api_key=3f553d72b2c837a9f26caae0b3856de3
@@ -52,10 +49,7 @@ export function getTvshows() {
   /tv/on_the_air?api_key=${API_KEY}`
   );
   return fetch(`${BASE_PATH}/tv/on_the_air?api_key=${API_KEY}`).then(
-    (response) => {
-      console.log("tv response : ", response.json());
-      return response.json();
-    }
+    (response) => response.json()
   );
 }
 // https://api.themoviedb.org/3/tv/on_the_air?api_key=3f553d72b2c837a9f26caae0b3856de3
