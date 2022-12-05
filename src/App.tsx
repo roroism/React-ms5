@@ -6,16 +6,18 @@ import Tv from "./Routes/Tv";
 
 function App() {
   return (
-    <Router>
-      <Header />
-      <Routes>
-        <Route path="/" element={<Home />}>
-          <Route path="movies/:movieId" element={<Home />}></Route>
-        </Route>
-        <Route path="/tv" element={<Tv />}></Route>
-        <Route path="/search" element={<Search />}></Route>
-      </Routes>
-    </Router>
+    <>
+      <Router>
+        <Header />
+        <Routes>
+          <Route path="/" element={<Home />}>
+            <Route path="movies/:movieId" element={<Home />}></Route>
+          </Route>
+          <Route path="/tv" element={<Tv />}></Route>
+          <Route path="/search" element={<Search />}></Route>
+        </Routes>
+      </Router>
+    </>
   );
 }
 

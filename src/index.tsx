@@ -1,7 +1,7 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
 import { RecoilRoot } from "recoil";
-import { createGlobalStyle, ThemeProvider } from "styled-components";
+import styled, { createGlobalStyle, ThemeProvider } from "styled-components";
 import App from "./App";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { theme } from "./theme";
@@ -71,6 +71,16 @@ a {
 }
 `;
 
+const H1 = styled.h1`
+  display: block;
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: polygon(0 0, 0 0, 0 0);
+`;
+
 const container = document.getElementById("root");
 const root = createRoot(container!);
 
@@ -81,6 +91,7 @@ root.render(
     <QueryClientProvider client={queryClient}>
       <ThemeProvider theme={theme}>
         <GlobalStyle />
+        <H1>Netflix</H1>
         <App />
       </ThemeProvider>
     </QueryClientProvider>
