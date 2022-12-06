@@ -41,9 +41,52 @@ const Overview = styled.p`
   width: 50%;
 `;
 
+const SliderButton = styled.button`
+  display: none;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  width: 50px;
+  height: 100px;
+  color: #fff;
+  font-size: 20px;
+  /* transition: font-size 0.3s, background-color 0.3s; */
+  transition: all 0.3s;
+  border: none;
+  cursor: pointer;
+  /* &:hover {
+    font-size: 25px;
+    background-color: rgba(0, 0, 0, 0.7);
+  } */
+`;
+
+const SliderLeftButton = styled(SliderButton)`
+  left: 0;
+`;
+
+const SliderRightButton = styled(SliderButton)`
+  right: 0;
+`;
+
 const Slider = styled.div`
   position: relative;
   top: -100px;
+  height: 200px;
+  &:hover ${SliderButton} {
+    background-color: rgba(0, 0, 0, 0.3);
+    display: block;
+    &:hover {
+      font-size: 25px;
+      background-color: rgba(0, 0, 0, 0.7);
+    }
+  }
+`;
+
+const RowWrap = styled.div`
+  position: absolute;
+  width: 100%;
+  height: 200px;
 `;
 
 const Row = styled(motion.div)`
@@ -188,6 +231,7 @@ function Home() {
   // console.log(data, isLoading);
   const [index, setIndex] = useState(0);
   const [leaving, setLeaving] = useState(false);
+  const [clickedNextBtn, setClickedNextBtn] = useState(false);
   const width = useWindowDimensions();
   const increaseIndex = () => {
     if (data) {
@@ -195,7 +239,18 @@ function Home() {
       toggleLeaving();
       const totalMovies = data.results.length - 1;
       const maxIndex = Math.floor(totalMovies / offset) - 1;
+      setClickedNextBtn(true);
       setIndex((prev) => (prev === maxIndex ? 0 : prev + 1));
+    }
+  };
+  const decreaseIndex = () => {
+    if (data) {
+      if (leaving) return;
+      toggleLeaving();
+      const totalMovies = data.results.length - 1;
+      const maxIndex = Math.floor(totalMovies / offset) - 1;
+      setClickedNextBtn(false);
+      setIndex((prev) => (prev === 0 ? maxIndex : prev - 1));
     }
   };
   const toggleLeaving = () => setLeaving((prev) => !prev);
@@ -215,10 +270,7 @@ function Home() {
         <Loader>Loading</Loader>
       ) : (
         <>
-          <Banner
-            onClick={increaseIndex}
-            bgPhoto={makeImagePath(data?.results[0].backdrop_path || "")}
-          >
+          <Banner bgPhoto={makeImagePath(data?.results[0].backdrop_path || "")}>
             <Title>{data?.results[0].title}</Title>
             <Overview>{data?.results[0].overview}</Overview>
           </Banner>
@@ -229,9 +281,17 @@ function Home() {
                 // initial="hidden"
                 // exit="exit"
                 // animate="visible"
-                initial={{ x: width - 11 }}
-                animate={{ x: 0 }}
-                exit={{ x: -width + 11 }}
+                initial={
+                  clickedNextBtn
+                    ? { x: width - 11, opacity: 0 }
+                    : { x: -width - 11, opacity: 0 }
+                }
+                animate={{ x: 0, opacity: 1 }}
+                exit={
+                  clickedNextBtn
+                    ? { x: -width + 11, opacity: 0 }
+                    : { x: width + 11, opacity: 0 }
+                }
                 transition={{ type: "tween", duration: 1 }}
                 key={index}
               >
@@ -256,6 +316,8 @@ function Home() {
                   ))}
               </Row>
             </AnimatePresence>
+            <SliderLeftButton onClick={decreaseIndex}>&lt;</SliderLeftButton>
+            <SliderRightButton onClick={increaseIndex}>&gt;</SliderRightButton>
           </Slider>
           <AnimatePresence>
             {bigMoviematch ? (
