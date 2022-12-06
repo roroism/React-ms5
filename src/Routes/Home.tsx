@@ -165,17 +165,21 @@ const BigOverview = styled.p`
   top: -70px;
 `;
 
-// const rowVariants = {
-//   hidden: {
-//     x: window.outerWidth - 22,
-//   },
-//   visible: {
-//     x: 0,
-//   },
-//   exit: {
-//     x: -window.outerWidth + 22,
-//   },
-// };
+const rowVariants = {
+  enter: ([clickedNextBtn, width]: [boolean, number]) => {
+    return {
+      x: clickedNextBtn ? width - 11 : -width - 11,
+    };
+  },
+  visible: {
+    x: 0,
+  },
+  exit: ([clickedNextBtn, width]: [boolean, number]) => {
+    return {
+      x: clickedNextBtn ? -width - 11 : width - 11,
+    };
+  },
+};
 
 const Info = styled(motion.div)`
   padding: 10px;
@@ -275,23 +279,28 @@ function Home() {
             <Overview>{data?.results[0].overview}</Overview>
           </Banner>
           <Slider>
-            <AnimatePresence initial={false} onExitComplete={toggleLeaving}>
+            <AnimatePresence
+              initial={false}
+              onExitComplete={toggleLeaving}
+              custom={[clickedNextBtn, width]}
+            >
               <Row
-                // variants={rowVariants}
-                // initial="hidden"
-                // exit="exit"
-                // animate="visible"
-                initial={
-                  clickedNextBtn
-                    ? { x: width - 11, opacity: 0 }
-                    : { x: -width - 11, opacity: 0 }
-                }
-                animate={{ x: 0, opacity: 1 }}
-                exit={
-                  clickedNextBtn
-                    ? { x: -width + 11, opacity: 0 }
-                    : { x: width + 11, opacity: 0 }
-                }
+                variants={rowVariants}
+                initial="enter"
+                exit="exit"
+                animate="visible"
+                custom={[clickedNextBtn, width]}
+                // initial={
+                //   clickedNextBtn
+                //     ? { x: width - 11, opacity: 0 }
+                //     : { x: -width - 11, opacity: 0 }
+                // }
+                // animate={{ x: 0, opacity: 1 }}
+                // exit={
+                //   clickedNextBtn
+                //     ? { x: -width + 11, opacity: 0 }
+                //     : { x: width + 11, opacity: 0 }
+                // }
                 transition={{ type: "tween", duration: 1 }}
                 key={index}
               >
