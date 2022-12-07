@@ -53,3 +53,9 @@ export function getTvshows() {
   );
 }
 // https://api.themoviedb.org/3/tv/on_the_air?api_key=3f553d72b2c837a9f26caae0b3856de3
+
+export function getMoviesDetail(movieId: string) {
+  return fetch(`${BASE_PATH}/movie/${movieId}?api_key=${API_KEY}`).then(
+    (response) => response.json()
+  );
+}

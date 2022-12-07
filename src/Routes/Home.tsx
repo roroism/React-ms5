@@ -6,6 +6,7 @@ import { makeImagePath } from "../utils";
 import { useState } from "react";
 import useWindowDimensions from "../Hooks/useWindowDimensions";
 import { useMatch, useNavigate } from "react-router-dom";
+import DetailInfo from "../Components/DetailInfo";
 
 const Wrapper = styled.div`
   background: black;
@@ -352,6 +353,9 @@ function Home() {
                       />
                       <BigTitle>{clickedMovie.title}</BigTitle>
                       <BigOverview>{clickedMovie.overview}</BigOverview>
+                      {bigMoviematch?.params.movieId ? (
+                        <DetailInfo movieId={bigMoviematch?.params.movieId} />
+                      ) : null}
                     </>
                   )}
                 </BigMovie>
