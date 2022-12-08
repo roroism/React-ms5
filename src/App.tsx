@@ -1,4 +1,9 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 import Header from "./Components/Header";
 import Home from "./Routes/Home";
 import Search from "./Routes/Search";
@@ -15,6 +20,7 @@ function App() {
           </Route>
           <Route path="/tv" element={<Tv />}></Route>
           <Route path="/search" element={<Search />}></Route>
+          <Route path="*" element={<Navigate replace to="/" />} />
         </Routes>
       </Router>
     </>
