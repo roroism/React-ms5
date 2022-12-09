@@ -35,6 +35,18 @@ export interface IGetTvResult {
   total_results: number;
 }
 
+export interface IGetMoviesDetail {
+  id: number;
+  adult: boolean;
+  release_date: string;
+  runtime: number;
+  status: string;
+  popularity: number;
+  vote_average: number;
+  vote_count: number;
+  genres: Array<{ id: number; name: string }>;
+}
+
 export function getMovies() {
   return fetch(`${BASE_PATH}/movie/now_playing?api_key=${API_KEY}`).then(
     (response) => response.json()
