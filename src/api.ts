@@ -37,14 +37,17 @@ export interface IGetTvResult {
 
 export interface IGetMoviesDetail {
   id: number;
+  title: string;
   adult: boolean;
   release_date: string;
   runtime: number;
   status: string;
   popularity: number;
+  production_countries: Array<{ iso_3166_1: string; name: string }>;
   vote_average: number;
   vote_count: number;
   genres: Array<{ id: number; name: string }>;
+  overview: string;
 }
 
 export function getMovies() {

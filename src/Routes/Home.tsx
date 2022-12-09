@@ -14,7 +14,7 @@ const Wrapper = styled.div`
   padding-bottom: 200px;
 `;
 
-const Loader = styled.div`
+export const Loader = styled.div`
   height: 20vh;
   display: flex;
   justify-content: center;
@@ -133,7 +133,6 @@ const BigMovie = styled(motion.div)<{ scrolly: number }>`
   position: absolute;
   width: 40vw;
   height: 80vh;
-  background-color: red;
   top: ${(props) => props.scrolly + 100}px;
   left: 0;
   right: 0;
@@ -155,8 +154,12 @@ const BigTitle = styled.h3`
   padding: 10px;
   /* text-align: center; */
   font-size: 46px;
-  position: relative;
-  top: -70px;
+  position: absolute;
+  width: 100%;
+  top: 330px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 
 const BigOverview = styled.p`
@@ -352,7 +355,7 @@ function Home() {
                         }}
                       />
                       <BigTitle>{clickedMovie.title}</BigTitle>
-                      <BigOverview>{clickedMovie.overview}</BigOverview>
+                      {/* <BigOverview>{clickedMovie.overview}</BigOverview> */}
                       {bigMoviematch?.params.movieId ? (
                         <DetailInfo movieId={bigMoviematch?.params.movieId} />
                       ) : null}
