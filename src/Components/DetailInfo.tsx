@@ -29,7 +29,7 @@ interface IDetailInfoProps {
   movieId: string;
 }
 
-function DetailInfo({ movieId }: IDetailInfoProps) {
+function DetailMovieInfo({ movieId }: IDetailInfoProps) {
   const { data, isLoading } = useQuery<IGetMoviesDetail>(
     ["movies", movieId],
     () => getMoviesDetail(movieId)
@@ -54,4 +54,4 @@ function DetailInfo({ movieId }: IDetailInfoProps) {
   );
 }
 
-export default DetailInfo;
+export default DetailMovieInfo;
