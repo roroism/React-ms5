@@ -9,7 +9,6 @@ import { useMatch, useNavigate } from "react-router-dom";
 import DetailInfo from "../Components/DetailMovieInfo";
 import { takeCoverage } from "v8";
 
-
 const Overview = styled.p`
   font-size: 36px;
   width: 50%;
@@ -139,7 +138,16 @@ const infoVariants = {
 
 const offset = 6;
 
-function ProgramList() {
+export enum EnumProgramList {
+  movies,
+  tv,
+}
+
+interface IProgramList {
+  list: EnumProgramList;
+}
+
+function ProgramList({ list }: IProgramList) {
   const navigate = useNavigate();
   const { data, isLoading } = useQuery<IGetTvResult>(
     ["tv", "onTheAir"],
@@ -171,64 +179,61 @@ function ProgramList() {
     }
   };
   const toggleLeaving = () => setLeaving((prev) => !prev);
-  const onBoxClicked = (movieId: number) => {
-    navigate(`/movies/${movieId}`);
+  const onBoxClicked = (id: number) => {
+    navigate(`/${list}/${id}`);
   };
-  
-  return (
 
+  return (
     <Slider>
-              <AnimatePresence
-                initial={false}
-                onExitComplete={toggleLeaving}
-                custom={[clickedNextBtn, width]}
+      <AnimatePresence
+        initial={false}
+        onExitComplete={toggleLeaving}
+        custom={[clickedNextBtn, width]}
+      >
+        <Row
+          variants={rowVariants}
+          initial="enter"
+          exit="exit"
+          animate="visible"
+          custom={[clickedNextBtn, width]}
+          // initial={
+          //   clickedNextBtn
+          //     ? { x: width - 11, opacity: 0 }
+          //     : { x: -width - 11, opacity: 0 }
+          // }
+          // animate={{ x: 0, opacity: 1 }}
+          // exit={
+          //   clickedNextBtn
+          //     ? { x: -width + 11, opacity: 0 }
+          //     : { x: width + 11, opacity: 0 }
+          // }
+          transition={{ type: "tween", duration: 1 }}
+          key={index}
+        >
+          {data?.results
+            .slice(1)
+            .slice(offset * index, offset * index + offset)
+            .map((tv) => (
+              <Box
+                layoutId={tv.id + ""}
+                key={tv.id}
+                variants={BoxVariants}
+                whileHover="hover"
+                initial="normal"
+                transition={{ type: "tween" }}
+                onClick={() => onBoxClicked(tv.id)}
+                bgPhoto={makeImagePath(tv.backdrop_path, "w500")}
               >
-                <Row
-                  variants={rowVariants}
-                  initial="enter"
-                  exit="exit"
-                  animate="visible"
-                  custom={[clickedNextBtn, width]}
-                  // initial={
-                  //   clickedNextBtn
-                  //     ? { x: width - 11, opacity: 0 }
-                  //     : { x: -width - 11, opacity: 0 }
-                  // }
-                  // animate={{ x: 0, opacity: 1 }}
-                  // exit={
-                  //   clickedNextBtn
-                  //     ? { x: -width + 11, opacity: 0 }
-                  //     : { x: width + 11, opacity: 0 }
-                  // }
-                  transition={{ type: "tween", duration: 1 }}
-                  key={index}
-                >
-                  {data?.results
-                    .slice(1)
-                    .slice(offset * index, offset * index + offset)
-                    .map((tv) => (
-                      <Box
-                        layoutId={tv.id + ""}
-                        key={tv.id}
-                        variants={BoxVariants}
-                        whileHover="hover"
-                        initial="normal"
-                        transition={{ type: "tween" }}
-                        onClick={() => onBoxClicked(tv.id)}
-                        bgPhoto={makeImagePath(tv.backdrop_path, "w500")}
-                      >
-                        <Info variants={infoVariants}>
-                          <h4>{tv.name}</h4>
-                        </Info>
-                      </Box>
-                    ))}
-                </Row>
-              </AnimatePresence>
-              <SliderLeftButton onClick={decreaseIndex}>&lt;</SliderLeftButton>
-              <SliderRightButton onClick={increaseIndex}>
-                &gt;
-              </SliderRightButton>
-            </Slider>
+                <Info variants={infoVariants}>
+                  <h4>{tv.name}</h4>
+                </Info>
+              </Box>
+            ))}
+        </Row>
+      </AnimatePresence>
+      <SliderLeftButton onClick={decreaseIndex}>&lt;</SliderLeftButton>
+      <SliderRightButton onClick={increaseIndex}>&gt;</SliderRightButton>
+    </Slider>
   );
 }
 

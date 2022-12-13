@@ -50,6 +50,21 @@ export interface IGetMoviesDetail {
   overview: string;
 }
 
+export interface IGetTvDetail {
+  id: number;
+  title: string;
+  adult: boolean;
+  release_date: string;
+  runtime: number;
+  status: string;
+  popularity: number;
+  production_countries: Array<{ iso_3166_1: string; name: string }>;
+  vote_average: number;
+  vote_count: number;
+  genres: Array<{ id: number; name: string }>;
+  overview: string;
+}
+
 export function getMovies() {
   return fetch(`${BASE_PATH}/movie/now_playing?api_key=${API_KEY}`).then(
     (response) => response.json()
@@ -71,6 +86,12 @@ export function getTvshows() {
 
 export function getMoviesDetail(movieId: string) {
   return fetch(`${BASE_PATH}/movie/${movieId}?api_key=${API_KEY}`).then(
+    (response) => response.json()
+  );
+}
+
+export function getTvDetail(tvId: string) {
+  return fetch(`${BASE_PATH}/movie/${tvId}?api_key=${API_KEY}`).then(
     (response) => response.json()
   );
 }

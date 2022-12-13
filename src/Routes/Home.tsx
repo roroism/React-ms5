@@ -5,9 +5,9 @@ import { getMovies, IGetMoviesResult } from "../api";
 import { makeImagePath } from "../utils";
 import { useState } from "react";
 import useWindowDimensions from "../Hooks/useWindowDimensions";
-import { useMatch, useNavigate } from "react-router-dom";
-import DetailInfo from "../Components/DetailMovieInfo";
-import ProgramList from "../Components/ProgramList";
+import { useMatch, useNavigate, useSearchParams } from "react-router-dom";
+import DetailMovieInfo from "../Components/DetailMovieInfo";
+import ProgramList, { EnumProgramList } from "../Components/ProgramList";
 
 const Wrapper = styled.div`
   background: black;
@@ -256,7 +256,9 @@ const offset = 6;
 // detail 정보 가져오기 api : GET /movie/{movie_id}
 function Home() {
   const navigate = useNavigate();
-  const bigMoviematch = useMatch("/movies/:movieId");
+  // const bigMoviematch = useMatch("/movies/:movieId");
+  const [searchParam, setSearchParam] = useSearchParams();
+  console.log('searchParam.get("movies")', searchParam.get("movies"));
   const { scrollY } = useScroll();
   const { data, isLoading } = useQuery<IGetMoviesResult>(
     ["movies", "nowPlaying"],
@@ -289,14 +291,21 @@ function Home() {
     }
   };
   const toggleLeaving = () => setLeaving((prev) => !prev);
-  const onBoxClicked = (movieId: number) => {
-    navigate(`/movies/${movieId}`);
+  const onBoxClicked = (Id: number) => {
+    // navigate(`/movies/${movieId}`);
+    // navigate(`?movies=${Id}`);
+    setSearchParam({ movies: Id.toString() });
   };
   const onOverlayClick = () => navigate("/");
+  // const clickedMovie =
+  //   bigMoviematch?.params.movieId &&
+  //   data?.results.find(
+  //     (movie) => String(movie.id) === bigMoviematch.params.movieId
+  //   );
   const clickedMovie =
-    bigMoviematch?.params.movieId &&
+    searchParam.get("movies") &&
     data?.results.find(
-      (movie) => String(movie.id) === bigMoviematch.params.movieId
+      (movie) => String(movie.id) === searchParam.get("movies")
     );
 
   return (
@@ -367,10 +376,10 @@ function Home() {
           </MovieList>
           <TvList>
             <H2>Tv Shows</H2>
-            <ProgramList />
+            <ProgramList list={EnumProgramList.tv} />
           </TvList>
           <AnimatePresence>
-            {bigMoviematch ? (
+            {searchParam.get("movies") ? (
               <>
                 <Overlay
                   onClick={onOverlayClick}
@@ -378,7 +387,7 @@ function Home() {
                   animate={{ opacity: 1 }}
                 />
                 <BigMovie
-                  layoutId={bigMoviematch.params.movieId}
+                  layoutId={searchParam.get("movies") as string}
                   scrolly={scrollY.get()}
                 >
                   {clickedMovie && (
@@ -393,8 +402,10 @@ function Home() {
                       />
                       <BigTitle>{clickedMovie.title}</BigTitle>
                       {/* <BigOverview>{clickedMovie.overview}</BigOverview> */}
-                      {bigMoviematch?.params.movieId ? (
-                        <DetailInfo movieId={bigMoviematch?.params.movieId} />
+                      {searchParam.get("movies") ? (
+                        <DetailMovieInfo
+                          movieId={searchParam.get("movies") as string}
+                        />
                       ) : null}
                     </>
                   )}

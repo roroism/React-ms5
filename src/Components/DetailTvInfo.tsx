@@ -1,6 +1,6 @@
 import { useQuery } from "react-query";
 import styled from "styled-components";
-import { getMoviesDetail, IGetMoviesDetail } from "../api";
+import { getTvDetail, IGetTvDetail } from "../api";
 import { Loader } from "../Routes/Home";
 
 const Wrapper = styled.div`
@@ -25,14 +25,13 @@ const Overview = styled.p`
   font-size: 1rem;
 `;
 
-interface IDetailMovieInfoProps {
-  movieId: string;
+interface IDetailTvInfoProps {
+  tvId: string;
 }
 
-function DetailMovieInfo({ movieId }: IDetailMovieInfoProps) {
-  const { data, isLoading } = useQuery<IGetMoviesDetail>(
-    ["movies", movieId],
-    () => getMoviesDetail(movieId)
+function DetailTvInfo({ tvId }: IDetailTvInfoProps) {
+  const { data, isLoading } = useQuery<IGetTvDetail>(["tvshows", tvId], () =>
+    getTvDetail(tvId)
   );
 
   console.log("detail : ", data);
@@ -52,4 +51,4 @@ function DetailMovieInfo({ movieId }: IDetailMovieInfoProps) {
   );
 }
 
-export default DetailMovieInfo;
+export default DetailTvInfo;
