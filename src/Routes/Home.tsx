@@ -8,6 +8,7 @@ import useWindowDimensions from "../Hooks/useWindowDimensions";
 import { useMatch, useNavigate, useSearchParams } from "react-router-dom";
 import DetailMovieInfo from "../Components/DetailMovieInfo";
 import ProgramList, { EnumProgramList } from "../Components/ProgramList";
+import TvData from "../Components/TVData";
 
 const Wrapper = styled.div`
   background: black;
@@ -291,10 +292,10 @@ function Home() {
     }
   };
   const toggleLeaving = () => setLeaving((prev) => !prev);
-  const onBoxClicked = (Id: number) => {
+  const onBoxClicked = (id: number) => {
     // navigate(`/movies/${movieId}`);
     // navigate(`?movies=${Id}`);
-    setSearchParam({ movies: Id.toString() });
+    setSearchParam({ movies: id.toString() });
   };
   const onOverlayClick = () => navigate("/");
   // const clickedMovie =
@@ -376,7 +377,7 @@ function Home() {
           </MovieList>
           <TvList>
             <H2>Tv Shows</H2>
-            <ProgramList list={EnumProgramList.tv} />
+            <TvData />
           </TvList>
           <AnimatePresence>
             {searchParam.get("movies") ? (
