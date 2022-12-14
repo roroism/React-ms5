@@ -45,7 +45,11 @@ function DetailTvInfo({ tvId }: IDetailTvInfoProps) {
             {data?.last_air_date}
             {data?.overview}
           </InnerDetailInfo>
-          <Overview>{data?.overview}</Overview>
+          {data?.overview ? (
+            <Overview>{data?.overview}</Overview>
+          ) : (
+            <Overview>Description not ready</Overview>
+          )}
         </WrapDetailInfo>
       )}
     </Wrapper>
