@@ -52,10 +52,10 @@ export interface IGetMoviesDetail {
 
 export interface IGetTvDetail {
   id: number;
-  title: string;
-  adult: boolean;
-  release_date: string;
-  runtime: number;
+  name: string;
+  first_air_date: string;
+  last_air_date: string;
+  tagline: string;
   status: string;
   popularity: number;
   production_countries: Array<{ iso_3166_1: string; name: string }>;
@@ -91,7 +91,7 @@ export function getMoviesDetail(movieId: string) {
 }
 
 export function getTvDetail(tvId: string) {
-  return fetch(`${BASE_PATH}/movie/${tvId}?api_key=${API_KEY}`).then(
+  return fetch(`${BASE_PATH}/tv/${tvId}?api_key=${API_KEY}`).then(
     (response) => response.json()
   );
 }

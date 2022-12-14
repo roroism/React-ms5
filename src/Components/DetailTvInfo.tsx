@@ -39,10 +39,11 @@ function DetailTvInfo({ tvId }: IDetailTvInfoProps) {
     <Wrapper>
       {isLoading ? null : (
         <WrapDetailInfo>
-          <Title>{data?.title}</Title>
+          <Title>{data?.name}</Title>
           <InnerDetailInfo>
-            {data?.release_date}
-            {data?.runtime}
+            {data?.first_air_date}
+            {data?.last_air_date}
+            {data?.overview}
           </InnerDetailInfo>
           <Overview>{data?.overview}</Overview>
         </WrapDetailInfo>
