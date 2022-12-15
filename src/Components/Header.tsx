@@ -140,6 +140,7 @@ interface IForm {
 function Header() {
   const [searchOpen, setSearchOpen] = useState(false);
   const homeMatch = useMatch("/");
+  const movieMatch = useMatch("movie");
   const tvMatch = useMatch("tv");
   const inputAnimation = useAnimation();
   const navAnimation = useAnimation();
@@ -200,6 +201,11 @@ function Header() {
         <Items>
           <Item>
             <Link to="/">Home {homeMatch && <Circle layoutId="circle" />}</Link>
+          </Item>
+          <Item>
+            <Link to="movie">
+              Movies {movieMatch && <Circle layoutId="circle" />}
+            </Link>
           </Item>
           <Item>
             <Link to="tv">
