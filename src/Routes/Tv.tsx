@@ -52,7 +52,10 @@ const Overview = styled.p`
 //   width: 100%;
 // `;
 
-const TvList = styled.div``;
+const TvList = styled.div`
+  position: relative;
+  top: -100px;
+`;
 
 const H2 = styled.h2`
   color: ${(props) => props.theme.white.lighter};

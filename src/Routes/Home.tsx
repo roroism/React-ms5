@@ -9,7 +9,6 @@ import { useMatch, useNavigate, useSearchParams } from "react-router-dom";
 import DetailMovieInfo from "../Components/DetailMovieInfo";
 import ProgramList, { EnumProgramList } from "../Components/ProgramList";
 import TvData from "../Components/TVData";
-import MovieData from "../Components/MovieData";
 
 const Wrapper = styled.div`
   background: black;
@@ -40,7 +39,9 @@ const MovieList = styled.div`
   top: -100px;
 `;
 
-const TvList = styled.div``;
+const TvList = styled.div`
+  position: relative;
+`;
 
 const HiddenEl = styled.h2`
   display: block;
@@ -159,13 +160,15 @@ const Overlay = styled(motion.div)`
 `;
 
 const BigMovie = styled(motion.div)<{ scrolly: number }>`
-  position: absolute;
+  position: fixed;
   width: 40vw;
   height: 80vh;
-  top: ${(props) => props.scrolly + 100}px;
+  /* top: ${(props) => props.scrolly + 100}px; */
   left: 0;
   right: 0;
-  margin: 0 auto;
+  top: 0;
+  bottom: 0;
+  margin: auto;
   border-radius: 15px;
   overflow: hidden;
   background-color: ${(props) => props.theme.black.lighter};
@@ -323,47 +326,63 @@ function Home() {
           </Banner>
           <MovieList>
             <H2>on Movie</H2>
-            <MovieData />
+            <Slider>
+              <AnimatePresence
+                initial={false}
+                onExitComplete={toggleLeaving}
+                custom={[clickedNextBtn, width]}
+              >
+                <Row
+                  variants={rowVariants}
+                  initial="enter"
+                  exit="exit"
+                  animate="visible"
+                  custom={[clickedNextBtn, width]}
+                  // initial={
+                  //   clickedNextBtn
+                  //     ? { x: width - 11, opacity: 0 }
+                  //     : { x: -width - 11, opacity: 0 }
+                  // }
+                  // animate={{ x: 0, opacity: 1 }}
+                  // exit={
+                  //   clickedNextBtn
+                  //     ? { x: -width + 11, opacity: 0 }
+                  //     : { x: width + 11, opacity: 0 }
+                  // }
+                  transition={{ type: "tween", duration: 1 }}
+                  key={index}
+                >
+                  {data?.results
+                    .slice(1)
+                    .slice(offset * index, offset * index + offset)
+                    .map((movie) => (
+                      <Box
+                        layoutId={movie.id + ""}
+                        key={movie.id}
+                        variants={BoxVariants}
+                        whileHover="hover"
+                        initial="normal"
+                        transition={{ type: "tween" }}
+                        onClick={() => onBoxClicked(movie.id)}
+                        bgPhoto={makeImagePath(movie.backdrop_path, "w500")}
+                      >
+                        <Info variants={infoVariants}>
+                          <h4>{movie.title}</h4>
+                        </Info>
+                      </Box>
+                    ))}
+                </Row>
+              </AnimatePresence>
+              <SliderLeftButton onClick={decreaseIndex}>&lt;</SliderLeftButton>
+              <SliderRightButton onClick={increaseIndex}>
+                &gt;
+              </SliderRightButton>
+            </Slider>
           </MovieList>
           <TvList>
             <H2>Tv Shows</H2>
             <TvData />
           </TvList>
-          <AnimatePresence>
-            {searchParam.get("movies") ? (
-              <>
-                <Overlay
-                  onClick={onOverlayClick}
-                  exit={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                />
-                <BigMovie
-                  layoutId={searchParam.get("movies") as string}
-                  scrolly={scrollY.get()}
-                >
-                  {clickedMovie && (
-                    <>
-                      <BigCover
-                        style={{
-                          backgroundImage: `linear-gradient(to top, black, transparent), url(${makeImagePath(
-                            clickedMovie.backdrop_path,
-                            "w500"
-                          )})`,
-                        }}
-                      />
-                      <BigTitle>{clickedMovie.title}</BigTitle>
-                      {/* <BigOverview>{clickedMovie.overview}</BigOverview> */}
-                      {searchParam.get("movies") ? (
-                        <DetailMovieInfo
-                          movieId={searchParam.get("movies") as string}
-                        />
-                      ) : null}
-                    </>
-                  )}
-                </BigMovie>
-              </>
-            ) : null}
-          </AnimatePresence>
         </>
       )}
     </Wrapper>

@@ -5,7 +5,12 @@ import { getMovies, getTvshows, IGetMoviesResult, IGetTvResult } from "../api";
 import { makeImagePath } from "../utils";
 import { useState } from "react";
 import useWindowDimensions from "../Hooks/useWindowDimensions";
-import { useMatch, useNavigate, useSearchParams } from "react-router-dom";
+import {
+  useLocation,
+  useMatch,
+  useNavigate,
+  useSearchParams,
+} from "react-router-dom";
 import DetailInfo from "../Components/DetailMovieInfo";
 import { takeCoverage } from "v8";
 import DetailTvInfo from "./DetailTvInfo";
@@ -92,13 +97,15 @@ const Overlay = styled(motion.div)`
 `;
 
 const BigMovie = styled(motion.div)<{ scrolly: number }>`
-  position: absolute;
+  position: fixed;
   width: 40vw;
   height: 80vh;
-  top: ${(props) => props.scrolly + 100}px;
+  /* top: ${(props) => props.scrolly + 100}px; */
   left: 0;
   right: 0;
-  margin: 0 auto;
+  top: 0;
+  bottom: 0;
+  margin: auto;
   border-radius: 15px;
   overflow: hidden;
   background-color: ${(props) => props.theme.black.lighter};
@@ -194,6 +201,8 @@ interface IProgramList {
 
 function ProgramList({ list, data, isLoading }: IProgramList) {
   const navigate = useNavigate();
+  const location = useLocation();
+  console.log("location : ", location);
   const [searchParam, setSearchParam] = useSearchParams();
   const { scrollY } = useScroll();
   // const { data, isLoading } = useQuery<IGetTvResult>(
@@ -231,9 +240,12 @@ function ProgramList({ list, data, isLoading }: IProgramList) {
     setSearchParam({ [list]: id.toString() });
   };
 
-  const onOverlayClick = () => navigate("/");
+  const onOverlayClick = () => {
+    if (location.pathname === "/") navigate("/");
+    else navigate(`${location.pathname}`);
+  };
 
-  const clickedTv =
+  const clickedProgram =
     searchParam.get(list) &&
     data?.results.find((movie) => String(movie.id) === searchParam.get(list));
 
@@ -301,17 +313,22 @@ function ProgramList({ list, data, isLoading }: IProgramList) {
               layoutId={searchParam.get(list) as string}
               scrolly={scrollY.get()}
             >
-              {clickedTv && (
+              {clickedProgram && (
                 <>
                   <BigCover
                     style={{
                       backgroundImage: `linear-gradient(to top, black, transparent), url(${makeImagePath(
-                        clickedTv.backdrop_path,
+                        clickedProgram.backdrop_path,
                         "w500"
                       )})`,
                     }}
                   />
-                  <BigTitle>{clickedTv.name}</BigTitle>
+                  {searchParam.get(list) ===
+                  EnumProgramList.movies ? null : // <BigTitle>{clickedProgram.title}</BigTitle>
+                  searchParam.get(list) === EnumProgramList.tv ? (
+                    <BigTitle>{clickedProgram.name}</BigTitle>
+                  ) : null}
+
                   {/* <BigOverview>{clickedMovie.overview}</BigOverview> */}
                   {searchParam.get(list) ? (
                     <DetailTvInfo tvId={searchParam.get(list) as string} />

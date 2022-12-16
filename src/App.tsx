@@ -21,7 +21,7 @@ function App() {
             <Route path="?movies=:Id" element={<Home />}></Route>
             <Route path="?tv=:Id" element={<Home />}></Route>
           </Route>
-          <Route path="/movie" element={<Movie />}></Route>
+          <Route path="/movies" element={<Movie />}></Route>
           <Route path="/tv" element={<Tv />}></Route>
           <Route path="/search" element={<Search />}></Route>
           <Route path="*" element={<Navigate replace to="/" />} />
