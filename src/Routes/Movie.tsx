@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { useQuery } from "react-query";
 import styled from "styled-components";
 import { getMovies, getTvshows, IGetMoviesResult, IGetTvResult } from "../api";
+import MovieData from "../Components/MovieData";
 import { makeImagePath } from "../utils";
 
 const Wrapper = styled.div`
@@ -51,6 +52,15 @@ const Overview = styled.p`
 //   width: 100%;
 // `;
 
+const MovieList = styled.div``;
+
+const H2 = styled.h2`
+  color: ${(props) => props.theme.white.lighter};
+  font-size: 24px;
+  padding: 7px 16px;
+  font-weight: 700;
+`;
+
 function Movie() {
   const { data, isLoading } = useQuery<IGetMoviesResult>(
     ["movies", "nowPlaying"],
@@ -70,6 +80,10 @@ function Movie() {
             <Title>{data?.results[0].title}</Title>
             <Overview>{data?.results[0].overview}</Overview>
           </Banner>
+          <MovieList>
+            <H2>on Movie</H2>
+            <MovieData />
+          </MovieList>
         </>
       )}
     </Wrapper>
