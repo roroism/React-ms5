@@ -3,6 +3,7 @@ import { useQuery } from "react-query";
 import styled from "styled-components";
 import { getTvshows, IGetTvResult } from "../api";
 import { makeImagePath } from "../utils";
+import TvData from "../Components/TVData";
 
 const Wrapper = styled.div`
   background: black;
@@ -51,6 +52,15 @@ const Overview = styled.p`
 //   width: 100%;
 // `;
 
+const TvList = styled.div``;
+
+const H2 = styled.h2`
+  color: ${(props) => props.theme.white.lighter};
+  font-size: 24px;
+  padding: 7px 16px;
+  font-weight: 700;
+`;
+
 function Tv() {
   const { data, isLoading } = useQuery<IGetTvResult>(
     ["tv", "onTheAir"],
@@ -70,6 +80,10 @@ function Tv() {
             <Title>{data?.results[0].name}</Title>
             <Overview>{data?.results[0].overview}</Overview>
           </Banner>
+          <TvList>
+            <H2>Tv Shows</H2>
+            <TvData />
+          </TvList>
         </>
       )}
     </Wrapper>
