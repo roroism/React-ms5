@@ -1,16 +1,26 @@
 import { useQuery } from "react-query";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { getMoviesDetail, IGetMoviesDetail } from "../api";
-import { Loader } from "../Routes/Home";
 
 const Wrapper = styled.div`
   width: 100%;
 `;
 
+const fadeIn = keyframes`
+  0% {
+   opacity: 0;
+  }
+  100% {
+   opacity: 1;
+  }
+ `;
+
 const WrapDetailInfo = styled.div`
   display: flex;
   flex-direction: column;
   padding: 7px 20px 10px;
+  opacity: 0;
+  animation: 0.5s forwards ${fadeIn};
 `;
 
 const Title = styled.p`

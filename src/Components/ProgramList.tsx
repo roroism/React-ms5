@@ -1,24 +1,10 @@
-import { useQuery } from "react-query";
 import styled from "styled-components";
-import { motion, AnimatePresence, useScroll } from "framer-motion";
-import { getMovies, getTvshows, IGetMoviesResult, IGetTvResult } from "../api";
+import { motion, AnimatePresence } from "framer-motion";
+import { IGetMoviesResult, IGetTvResult, IMovie, ITv } from "../api";
 import { makeImagePath } from "../utils";
 import { useState } from "react";
 import useWindowDimensions from "../Hooks/useWindowDimensions";
-import {
-  useLocation,
-  useMatch,
-  useNavigate,
-  useSearchParams,
-} from "react-router-dom";
-import DetailInfo from "../Components/DetailMovieInfo";
-import { takeCoverage } from "v8";
-import DetailTvInfo from "./DetailTvInfo";
-
-const Overview = styled.p`
-  font-size: 36px;
-  width: 50%;
-`;
+import { useLocation, useSearchParams } from "react-router-dom";
 
 const SliderButton = styled.button`
   display: none;
@@ -87,50 +73,6 @@ const Box = styled(motion.div)<{ bgPhoto: string }>`
   }
 `;
 
-const Overlay = styled(motion.div)`
-  position: fixed;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  opacity: 0;
-`;
-
-const BigMovie = styled(motion.div)<{ scrolly: number }>`
-  position: fixed;
-  width: 40vw;
-  height: 80vh;
-  /* top: ${(props) => props.scrolly + 100}px; */
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  margin: auto;
-  border-radius: 15px;
-  overflow: hidden;
-  background-color: ${(props) => props.theme.black.lighter};
-`;
-
-const BigCover = styled.div`
-  width: 100%;
-  background-size: cover;
-  background-position: center center;
-  height: 400px;
-`;
-
-const BigTitle = styled.h3`
-  color: ${(props) => props.theme.white.lighter};
-  padding: 10px;
-  /* text-align: center; */
-  font-size: 46px;
-  position: absolute;
-  width: 100%;
-  top: 330px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-`;
-
 const rowVariants = {
   enter: ([clickedNextBtn, width]: [boolean, number]) => {
     return {
@@ -195,20 +137,22 @@ export enum EnumProgramList {
 
 interface IProgramList {
   list: EnumProgramList;
-  data: IGetTvResult | undefined;
+  data: IGetTvResult | IGetMoviesResult | undefined;
   isLoading: boolean;
+  movieData?: IGetMoviesResult | undefined;
+  tvData?: IGetTvResult | undefined;
 }
 
-function ProgramList({ list, data, isLoading }: IProgramList) {
-  const navigate = useNavigate();
+function ProgramList({
+  list,
+  data,
+  isLoading,
+  movieData,
+  tvData,
+}: IProgramList) {
   const location = useLocation();
   console.log("location : ", location);
   const [searchParam, setSearchParam] = useSearchParams();
-  const { scrollY } = useScroll();
-  // const { data, isLoading } = useQuery<IGetTvResult>(
-  //   ["tv", "onTheAir"],
-  //   getTvshows
-  // );
   const [index, setIndex] = useState(0);
   const [leaving, setLeaving] = useState(false);
   const [clickedNextBtn, setClickedNextBtn] = useState(false);
@@ -239,15 +183,6 @@ function ProgramList({ list, data, isLoading }: IProgramList) {
     // navigate(`/${list}/${id}`);
     setSearchParam({ [list]: id.toString() });
   };
-
-  const onOverlayClick = () => {
-    if (location.pathname === "/") navigate("/");
-    else navigate(`${location.pathname}`);
-  };
-
-  const clickedProgram =
-    searchParam.get(list) &&
-    data?.results.find((movie) => String(movie.id) === searchParam.get(list));
 
   return (
     <>
@@ -280,19 +215,23 @@ function ProgramList({ list, data, isLoading }: IProgramList) {
             {data?.results
               .slice(1)
               .slice(offset * index, offset * index + offset)
-              .map((tv) => (
+              .map((content) => (
                 <Box
-                  layoutId={tv.id + ""}
-                  key={tv.id}
+                  layoutId={content.id + ""}
+                  key={content.id}
                   variants={BoxVariants}
                   whileHover="hover"
                   initial="normal"
                   transition={{ type: "tween" }}
-                  onClick={() => onBoxClicked(tv.id)}
-                  bgPhoto={makeImagePath(tv.backdrop_path, "w500")}
+                  onClick={() => onBoxClicked(content.id)}
+                  bgPhoto={makeImagePath(content.backdrop_path, "w500")}
                 >
                   <Info variants={infoVariants}>
-                    <h4>{tv.name}</h4>
+                    {list === EnumProgramList.movies ? (
+                      <h4>{content.title}</h4>
+                    ) : list === EnumProgramList.tv ? (
+                      <h4>{content.name}</h4>
+                    ) : null}
                   </Info>
                 </Box>
               ))}
@@ -301,44 +240,6 @@ function ProgramList({ list, data, isLoading }: IProgramList) {
         <SliderLeftButton onClick={decreaseIndex}>&lt;</SliderLeftButton>
         <SliderRightButton onClick={increaseIndex}>&gt;</SliderRightButton>
       </Slider>
-      <AnimatePresence>
-        {searchParam.get(list) ? (
-          <>
-            <Overlay
-              onClick={onOverlayClick}
-              exit={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-            />
-            <BigMovie
-              layoutId={searchParam.get(list) as string}
-              scrolly={scrollY.get()}
-            >
-              {clickedProgram && (
-                <>
-                  <BigCover
-                    style={{
-                      backgroundImage: `linear-gradient(to top, black, transparent), url(${makeImagePath(
-                        clickedProgram.backdrop_path,
-                        "w500"
-                      )})`,
-                    }}
-                  />
-                  {searchParam.get(list) ===
-                  EnumProgramList.movies ? null : // <BigTitle>{clickedProgram.title}</BigTitle>
-                  searchParam.get(list) === EnumProgramList.tv ? (
-                    <BigTitle>{clickedProgram.name}</BigTitle>
-                  ) : null}
-
-                  {/* <BigOverview>{clickedMovie.overview}</BigOverview> */}
-                  {searchParam.get(list) ? (
-                    <DetailTvInfo tvId={searchParam.get(list) as string} />
-                  ) : null}
-                </>
-              )}
-            </BigMovie>
-          </>
-        ) : null}
-      </AnimatePresence>
     </>
   );
 }

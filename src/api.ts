@@ -1,11 +1,12 @@
 const API_KEY = "3f553d72b2c837a9f26caae0b3856de3";
 const BASE_PATH = "https://api.themoviedb.org/3";
 
-interface IMovie {
+export interface IMovie {
   id: number;
   backdrop_path: string;
   poster_path: string;
   title: string;
+  name?: string;
   overview: string;
 }
 
@@ -20,11 +21,12 @@ export interface IGetMoviesResult {
   total_results: number;
 }
 
-interface ITv {
+export interface ITv {
   id: number;
   backdrop_path: string;
   poster_path: string;
   name: string;
+  title?: string;
   overview: string;
 }
 
@@ -91,7 +93,7 @@ export function getMoviesDetail(movieId: string) {
 }
 
 export function getTvDetail(tvId: string) {
-  return fetch(`${BASE_PATH}/tv/${tvId}?api_key=${API_KEY}`).then(
-    (response) => response.json()
+  return fetch(`${BASE_PATH}/tv/${tvId}?api_key=${API_KEY}`).then((response) =>
+    response.json()
   );
 }

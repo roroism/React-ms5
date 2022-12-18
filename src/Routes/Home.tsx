@@ -9,6 +9,7 @@ import { useMatch, useNavigate, useSearchParams } from "react-router-dom";
 import DetailMovieInfo from "../Components/DetailMovieInfo";
 import ProgramList, { EnumProgramList } from "../Components/ProgramList";
 import TvData from "../Components/TVData";
+import MovieData from "../Components/MovieData";
 
 const Wrapper = styled.div`
   background: black;
@@ -326,58 +327,7 @@ function Home() {
           </Banner>
           <MovieList>
             <H2>on Movie</H2>
-            <Slider>
-              <AnimatePresence
-                initial={false}
-                onExitComplete={toggleLeaving}
-                custom={[clickedNextBtn, width]}
-              >
-                <Row
-                  variants={rowVariants}
-                  initial="enter"
-                  exit="exit"
-                  animate="visible"
-                  custom={[clickedNextBtn, width]}
-                  // initial={
-                  //   clickedNextBtn
-                  //     ? { x: width - 11, opacity: 0 }
-                  //     : { x: -width - 11, opacity: 0 }
-                  // }
-                  // animate={{ x: 0, opacity: 1 }}
-                  // exit={
-                  //   clickedNextBtn
-                  //     ? { x: -width + 11, opacity: 0 }
-                  //     : { x: width + 11, opacity: 0 }
-                  // }
-                  transition={{ type: "tween", duration: 1 }}
-                  key={index}
-                >
-                  {data?.results
-                    .slice(1)
-                    .slice(offset * index, offset * index + offset)
-                    .map((movie) => (
-                      <Box
-                        layoutId={movie.id + ""}
-                        key={movie.id}
-                        variants={BoxVariants}
-                        whileHover="hover"
-                        initial="normal"
-                        transition={{ type: "tween" }}
-                        onClick={() => onBoxClicked(movie.id)}
-                        bgPhoto={makeImagePath(movie.backdrop_path, "w500")}
-                      >
-                        <Info variants={infoVariants}>
-                          <h4>{movie.title}</h4>
-                        </Info>
-                      </Box>
-                    ))}
-                </Row>
-              </AnimatePresence>
-              <SliderLeftButton onClick={decreaseIndex}>&lt;</SliderLeftButton>
-              <SliderRightButton onClick={increaseIndex}>
-                &gt;
-              </SliderRightButton>
-            </Slider>
+            <MovieData />
           </MovieList>
           <TvList>
             <H2>Tv Shows</H2>
