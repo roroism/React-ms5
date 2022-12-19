@@ -15,24 +15,35 @@ const fadeIn = keyframes`
   }
  `;
 
-const WrapDetailInfo = styled.div`
+const WrapDetailInfo = styled.article`
   display: flex;
   flex-direction: column;
   padding: 7px 20px 10px;
   opacity: 0;
-  animation: 0.5s forwards ${fadeIn};
+  animation: 0.4s forwards ${fadeIn};
 `;
 
 const Title = styled.p`
   font-size: 22px;
+  font-weight: 600;
+`;
+
+const ReleaseDate = styled.span``;
+
+const Runtime = styled.span`
+  margin-left: 16px;
 `;
 
 const InnerDetailInfo = styled.div`
+  margin-top: 10px;
   display: flex;
 `;
 
 const Overview = styled.p`
+  margin-top: 10px;
+  position: relative;
   font-size: 1rem;
+  line-height: 1.5em;
 `;
 
 interface IDetailMovieInfoProps {
@@ -52,8 +63,8 @@ function DetailMovieInfo({ movieId }: IDetailMovieInfoProps) {
         <WrapDetailInfo>
           <Title>{data?.title}</Title>
           <InnerDetailInfo>
-            {data?.release_date}
-            {data?.runtime}
+            <ReleaseDate>{data?.release_date}</ReleaseDate>
+            <Runtime>{data?.runtime} min</Runtime>
           </InnerDetailInfo>
           <Overview>{data?.overview}</Overview>
         </WrapDetailInfo>

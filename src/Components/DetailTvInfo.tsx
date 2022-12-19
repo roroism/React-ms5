@@ -15,7 +15,7 @@ const fadeIn = keyframes`
   }
  `;
 
-const WrapDetailInfo = styled.div`
+const WrapDetailInfo = styled.article`
   display: flex;
   flex-direction: column;
   padding: 7px 20px 10px;
@@ -25,14 +25,27 @@ const WrapDetailInfo = styled.div`
 
 const Title = styled.p`
   font-size: 22px;
+  font-weight: 600;
+`;
+
+const FirstAirDate = styled.span`
+  margin-right: 16px;
+`;
+
+const LastAirDate = styled.span`
+  margin-left: 16px;
 `;
 
 const InnerDetailInfo = styled.div`
+  margin-top: 10px;
   display: flex;
 `;
 
 const Overview = styled.p`
+  margin-top: 10px;
+  position: relative;
   font-size: 1rem;
+  line-height: 1.5em;
 `;
 
 interface IDetailTvInfoProps {
@@ -51,9 +64,8 @@ function DetailTvInfo({ tvId }: IDetailTvInfoProps) {
         <WrapDetailInfo>
           <Title>{data?.name}</Title>
           <InnerDetailInfo>
-            {data?.first_air_date}
-            {data?.last_air_date}
-            {data?.overview}
+            <FirstAirDate>{data?.first_air_date}</FirstAirDate>~
+            <LastAirDate>{data?.last_air_date}</LastAirDate>
           </InnerDetailInfo>
           {data?.overview ? (
             <Overview>{data?.overview}</Overview>
