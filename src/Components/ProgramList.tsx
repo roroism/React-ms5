@@ -42,7 +42,8 @@ const Slider = styled.div`
     background-color: rgba(0, 0, 0, 0.3);
     display: block;
     &:hover {
-      font-size: 25px;
+      /* font-size: 25px; */
+      color: orange;
       background-color: rgba(0, 0, 0, 0.7);
     }
   }
