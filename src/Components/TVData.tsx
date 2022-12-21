@@ -99,12 +99,21 @@ function TvData() {
               {clickedTv && (
                 <>
                   <BigCover
-                    style={{
-                      backgroundImage: `linear-gradient(to top, black, transparent), url(${makeImagePath(
-                        clickedTv.backdrop_path,
-                        "w500"
-                      )})`,
-                    }}
+                    style={
+                      clickedTv.backdrop_path
+                        ? {
+                            backgroundImage: `linear-gradient(to top, black, transparent), url(${makeImagePath(
+                              clickedTv.backdrop_path,
+                              "w500"
+                            )})`,
+                          }
+                        : {
+                            backgroundImage: `linear-gradient(to top, black, transparent), url(${
+                              process.env.PUBLIC_URL +
+                              "/img/content_background.png"
+                            })`,
+                          }
+                    }
                   />
                   <BigTitle>{clickedTv?.name}</BigTitle>
                   {/* <BigOverview>{clickedMovie.overview}</BigOverview> */}

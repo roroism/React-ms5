@@ -225,7 +225,11 @@ function ProgramList({
                   initial="normal"
                   transition={{ type: "tween" }}
                   onClick={() => onBoxClicked(content.id)}
-                  bgPhoto={makeImagePath(content.backdrop_path, "w500")}
+                  bgPhoto={
+                    content.backdrop_path
+                      ? makeImagePath(content.backdrop_path, "w500")
+                      : process.env.PUBLIC_URL + "/img/content_background.png"
+                  }
                 >
                   <Info variants={infoVariants}>
                     {list === EnumProgramList.movies ? (

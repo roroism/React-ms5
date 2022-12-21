@@ -95,12 +95,21 @@ function MovieData() {
               {clickedMovie && (
                 <>
                   <BigCover
-                    style={{
-                      backgroundImage: `linear-gradient(to top, black, transparent), url(${makeImagePath(
-                        clickedMovie.backdrop_path,
-                        "w500"
-                      )})`,
-                    }}
+                    style={
+                      clickedMovie.backdrop_path
+                        ? {
+                            backgroundImage: `linear-gradient(to top, black, transparent), url(${makeImagePath(
+                              clickedMovie.backdrop_path,
+                              "w500"
+                            )})`,
+                          }
+                        : {
+                            backgroundImage: `linear-gradient(to top, black, transparent), url(${
+                              process.env.PUBLIC_URL +
+                              "/img/content_background.png"
+                            })`,
+                          }
+                    }
                   />
                   <BigTitle>{clickedMovie?.title}</BigTitle>
                   {/* <BigOverview>{clickedMovie.overview}</BigOverview> */}
