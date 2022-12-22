@@ -10,6 +10,7 @@ const Wrapper = styled.div`
   background: black;
   overflow-x: hidden;
   padding-bottom: 200px;
+  min-height: 1650px;
 `;
 
 const Loader = styled.div`
