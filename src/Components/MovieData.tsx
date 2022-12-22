@@ -18,7 +18,7 @@ const Overlay = styled(motion.div)`
 
 const BigInfo = styled(motion.div)<{ scrolly: number }>`
   position: fixed;
-  width: 40vw;
+  width: 50vw;
   height: 80vh;
   /* top: ${(props) => props.scrolly + 100}px; */
   left: 0;

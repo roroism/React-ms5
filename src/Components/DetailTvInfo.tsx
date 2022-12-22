@@ -65,6 +65,18 @@ const Overview = styled(motion.p)`
   position: relative;
   font-size: 1rem;
   line-height: 1.5em;
+  &::first-letter {
+    font-weight: 700;
+    font-size: 1.7em;
+    color: rgba(299, 9, 20, 0.7);
+  }
+  &.noDes {
+    &::first-letter {
+      font-weight: 400;
+      font-size: 1rem;
+      color: ${(props) => props.theme.white.darker};
+    }
+  }
 `;
 
 const variantsPoster = {
@@ -137,6 +149,7 @@ function DetailTvInfo({ tvId }: IDetailTvInfoProps) {
                 initial="start"
                 animate="end"
                 transition={{ default: { duration: 0.5, delay: 0.3 } }}
+                className="noDes"
               >
                 Description not ready
                 <br />

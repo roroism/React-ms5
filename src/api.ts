@@ -50,6 +50,7 @@ export interface IGetMoviesDetail {
   vote_count: number;
   genres: Array<{ id: number; name: string }>;
   overview: string;
+  poster_path: string;
 }
 
 export interface IGetTvDetail {
