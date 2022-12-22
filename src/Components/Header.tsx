@@ -178,7 +178,12 @@ function Header() {
   };
 
   return (
-    <Nav variants={navVariants} animate={navAnimation} initial={"top"}>
+    <Nav
+      variants={navVariants}
+      animate={navAnimation}
+      initial={"top"}
+      whileHover={"scroll"}
+    >
       <H2>Navigation Area</H2>
       <Col>
         <WrapLogo>
