@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { getMovies, getTvshows, IGetMoviesResult, IGetTvResult } from "../api";
 import MovieData from "../Components/MovieData";
 import { makeImagePath } from "../utils";
+import { useEffect } from "react";
 
 const Wrapper = styled.div`
   background: black;
@@ -70,6 +71,11 @@ function Movie() {
     getMovies
   );
   console.log("movie data : ", data);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <Wrapper>
       {isLoading ? (

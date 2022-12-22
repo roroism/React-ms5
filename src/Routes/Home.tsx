@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { motion, AnimatePresence, useScroll } from "framer-motion";
 import { getMovies, IGetMoviesResult } from "../api";
 import { makeImagePath } from "../utils";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useWindowDimensions from "../Hooks/useWindowDimensions";
 import { useMatch, useNavigate, useSearchParams } from "react-router-dom";
 import DetailMovieInfo from "../Components/DetailMovieInfo";
@@ -313,6 +313,10 @@ function Home() {
     data?.results.find(
       (movie) => String(movie.id) === searchParam.get("movies")
     );
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <Wrapper>

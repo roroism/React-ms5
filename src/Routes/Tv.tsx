@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { getTvshows, IGetTvResult } from "../api";
 import { makeImagePath } from "../utils";
 import TvData from "../Components/TVData";
+import { useEffect } from "react";
 
 const Wrapper = styled.div`
   background: black;
@@ -70,6 +71,11 @@ function Tv() {
     getTvshows
   );
   console.log("tv data : ", data);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <Wrapper>
       {isLoading ? (
