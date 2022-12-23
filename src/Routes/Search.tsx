@@ -1,16 +1,24 @@
 import { useEffect } from "react";
+import { useQuery } from "react-query";
 import { useLocation } from "react-router-dom";
+import { getMultiSearch } from "../api";
 
 function Search() {
   const location = useLocation();
   const keyword = new URLSearchParams(location.search).get("keyword");
+  const { data, isLoading } = useQuery(
+    ["search", "multi"],
+    () => getMultiSearch(keyword),
+    { enabled: !!keyword }
+  );
+  console.log("search data : ", data);
   console.log(keyword);
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
-  return null;
+  return <div>{keyword}</div>;
 }
 
 export default Search;

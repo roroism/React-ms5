@@ -69,6 +69,42 @@ export interface IGetTvDetail {
   poster_path: string;
 }
 
+enum MediaType {
+  movie = "movie",
+  tv = "tv",
+  person = "person",
+}
+
+export interface ITvSearch {
+  id: number;
+  backdrop_path: string | null;
+  poster_path: string | null;
+  name: string;
+  overview: string;
+  media_type: MediaType;
+}
+
+export interface IMovieSearch {
+  id: number;
+  backgrop_path: string | null;
+  poster_path: string | null;
+  title: string;
+  overview: string;
+  media_type: MediaType;
+}
+
+export interface IMultiSearch {
+  total_results: number;
+  total_pages: number;
+}
+
+export interface getMultiSearchResult {
+  page: number;
+  results: IMultiSearch;
+  total_results: number;
+  total_pages: number;
+}
+
 export function getMovies() {
   return fetch(`${BASE_PATH}/movie/now_playing?api_key=${API_KEY}`).then(
     (response) => response.json()
@@ -98,4 +134,10 @@ export function getTvDetail(tvId: string) {
   return fetch(`${BASE_PATH}/tv/${tvId}?api_key=${API_KEY}`).then((response) =>
     response.json()
   );
+}
+
+export function getMultiSearch(searchKeyword: string | null) {
+  return fetch(
+    `${BASE_PATH}/search/multi?query=${searchKeyword}&api_key=${API_KEY}`
+  ).then((response) => response.json());
 }
