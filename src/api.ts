@@ -86,7 +86,7 @@ export interface ITvSearch {
 
 export interface IMovieSearch {
   id: number;
-  backgrop_path: string | null;
+  backdrop_path: string | null;
   poster_path: string | null;
   title: string;
   overview: string;
