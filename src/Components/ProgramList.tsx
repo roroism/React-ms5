@@ -103,7 +103,7 @@ const Info = styled(motion.div)`
   }
 `;
 
-const BoxVariants = {
+const boxVariants = {
   normal: {
     scale: 1,
   },
@@ -220,7 +220,7 @@ function ProgramList({
                 <Box
                   layoutId={content.id + ""}
                   key={content.id}
-                  variants={BoxVariants}
+                  variants={boxVariants}
                   whileHover="hover"
                   initial="normal"
                   transition={{ type: "tween" }}
