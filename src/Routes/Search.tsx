@@ -1,24 +1,23 @@
-import { useEffect } from "react";
+import { Suspense, useEffect } from "react";
 import { useQuery } from "react-query";
 import { useLocation } from "react-router-dom";
-import { getMultiSearch } from "../api";
+import {
+  MediaType,
+  getMultiSearch,
+  getMultiSearchResult,
+  IMovieSearch,
+} from "../api";
+import { makeImagePath } from "../utils";
+import styled from "styled-components";
+import { motion } from "framer-motion";
+import SearchedList from "../Components/SearchedList";
 
 function Search() {
-  const location = useLocation();
-  const keyword = new URLSearchParams(location.search).get("keyword");
-  const { data, isLoading } = useQuery(
-    ["search", "multi"],
-    () => getMultiSearch(keyword),
-    { enabled: !!keyword }
-  );
-  console.log("search data : ", data);
-  console.log(keyword);
-
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
-  return <div>{keyword}</div>;
+  return <SearchedList />;
 }
 
 export default Search;
