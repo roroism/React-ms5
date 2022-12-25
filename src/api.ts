@@ -69,7 +69,7 @@ export interface IGetTvDetail {
   poster_path: string;
 }
 
-enum MediaType {
+export enum MediaType {
   movie = "movie",
   tv = "tv",
   person = "person",
@@ -93,14 +93,9 @@ export interface IMovieSearch {
   media_type: MediaType;
 }
 
-export interface IMultiSearch {
-  total_results: number;
-  total_pages: number;
-}
-
 export interface getMultiSearchResult {
   page: number;
-  results: IMultiSearch;
+  results: (ITvSearch | IMovieSearch)[];
   total_results: number;
   total_pages: number;
 }
