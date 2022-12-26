@@ -166,6 +166,7 @@ function Header() {
       // animate={{ scaleX: searchOpen ? 1 : 0 }}
     } else {
       // trigger the open animation
+      setFocus("keyword", { shouldSelect: true });
       inputAnimation.start({ scaleX: 1 });
     }
     setSearchOpen((prev) => !prev);
@@ -182,7 +183,7 @@ function Header() {
   }, [scrollY, navAnimation]);
 
   const navigate: NavigateFunction = useNavigate();
-  const { register, handleSubmit } = useForm<IForm>();
+  const { register, handleSubmit, setFocus } = useForm<IForm>();
   const onValid = (data: IForm) => {
     console.log(data);
     navigate(`/search?keyword=${data.keyword}`);
@@ -233,6 +234,7 @@ function Header() {
       <Col>
         <Search onSubmit={handleSubmit(onValid)}>
           <ButtonSearch
+            type="button"
             onClick={toggleSearch}
             animate={{ x: searchOpen ? -212 : 0 }}
             transition={{ type: "linear" }}
