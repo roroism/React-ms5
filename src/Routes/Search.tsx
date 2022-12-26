@@ -12,12 +12,31 @@ import styled from "styled-components";
 import { motion } from "framer-motion";
 import SearchedList from "../Components/SearchedList";
 
+const Wrapper = styled.div`
+  background: black;
+  overflow-x: hidden;
+  /* padding-bottom: 200px; */
+  padding: 200px 0 200px;
+`;
+
+const SpanSearchResults = styled.span`
+  margin-left: 10px;
+`;
+
 function Search() {
+  const location = useLocation();
+  const keyword = new URLSearchParams(location.search).get("keyword");
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
-  return <SearchedList />;
+  return (
+    <Wrapper>
+      <SpanSearchResults>Search Results for "{keyword}"</SpanSearchResults>
+      <SearchedList keyword={keyword} />
+    </Wrapper>
+  );
 }
 
 export default Search;

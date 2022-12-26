@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import { getMultiSearch, getMultiSearchResult } from "../api";
 import { motion } from "framer-motion";
-import { useLocation } from "react-router-dom";
 import { useQuery } from "react-query";
 import { makeImagePath } from "../utils";
 
@@ -11,8 +10,8 @@ const UlContent = styled.ul`
   flex-wrap: wrap;
   justify-content: space-between;
   width: 100%;
-  margin: 300px 0 200px;
   gap: 5px;
+  margin-top: 10px;
 `;
 
 const Box = styled(motion.li)<{ bgPhoto: string }>`
@@ -72,9 +71,11 @@ const infoVariants = {
   },
 };
 
-function SearchedList() {
-  const location = useLocation();
-  const keyword = new URLSearchParams(location.search).get("keyword");
+interface ISearchedList {
+  keyword: string | null;
+}
+
+function SearchedList({ keyword }: ISearchedList) {
   const { data, isLoading } = useQuery<getMultiSearchResult>(
     ["search", "multi"],
     () => getMultiSearch(keyword),
