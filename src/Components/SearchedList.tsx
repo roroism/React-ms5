@@ -77,7 +77,7 @@ interface ISearchedList {
 
 function SearchedList({ keyword }: ISearchedList) {
   const { data, isLoading } = useQuery<getMultiSearchResult>(
-    ["search", "multi"],
+    ["search", "multi", keyword],
     () => getMultiSearch(keyword),
     { enabled: !!keyword }
   );
