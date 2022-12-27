@@ -39,7 +39,7 @@ const Info = styled(motion.div)`
   position: absolute;
   width: 100%;
   bottom: 0;
-  h4 {
+  h3 {
     text-align: center;
     font-size: 18px;
   }
