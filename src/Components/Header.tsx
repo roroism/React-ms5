@@ -194,7 +194,14 @@ function Header() {
       variants={navVariants}
       animate={navAnimation}
       initial={"top"}
-      whileHover={"scroll"}
+      onMouseOver={() => {
+        navAnimation.start("scroll");
+      }}
+      onMouseOut={() => {
+        scrollY.get() > 80
+          ? navAnimation.start("scroll")
+          : navAnimation.start("top");
+      }}
     >
       <H2>Navigation Area</H2>
       <Col>
