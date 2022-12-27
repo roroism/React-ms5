@@ -104,9 +104,9 @@ function SearchedList({ keyword }: ISearchedList) {
           >
             <Info variants={infoVariants}>
               {"title" in content ? (
-                <h4>{content.title}</h4>
+                <h3>{content.title}</h3>
               ) : "name" in content ? (
-                <h4>{content.name}</h4>
+                <h3>{content.name}</h3>
               ) : null}
             </Info>
           </Box>

@@ -233,9 +233,9 @@ function ProgramList({
                 >
                   <Info variants={infoVariants}>
                     {list === EnumProgramList.movies ? (
-                      <h4>{content.title}</h4>
+                      <h3>{content.title}</h3>
                     ) : list === EnumProgramList.tv ? (
-                      <h4>{content.name}</h4>
+                      <h3>{content.name}</h3>
                     ) : null}
                   </Info>
                 </Box>

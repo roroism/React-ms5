@@ -19,6 +19,18 @@ const Wrapper = styled.div`
   padding: 200px 0 200px;
 `;
 
+const HiddenEl = styled.h2`
+  display: block;
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: polygon(0 0, 0 0, 0 0);
+`;
+
+const HiddenH2 = HiddenEl.withComponent("h2");
+
 const SpanSearchResults = styled.span`
   margin-left: 10px;
 `;
@@ -33,6 +45,7 @@ function Search() {
 
   return (
     <Wrapper>
+      <HiddenH2>Searched Contents</HiddenH2>
       <SpanSearchResults>Search Results for "{keyword}"</SpanSearchResults>
       <SearchedList keyword={keyword} />
     </Wrapper>
