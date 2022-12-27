@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { getMultiSearch, getMultiSearchResult } from "../api";
+import { MediaType, getMultiSearch, getMultiSearchResult } from "../api";
 import { motion } from "framer-motion";
 import { useQuery } from "react-query";
 import { makeImagePath } from "../utils";
@@ -15,7 +15,7 @@ const UlContent = styled.ul`
 `;
 
 const Box = styled(motion.li)<{ bgphoto: string }>`
-  flex: 1 1 19%;
+  flex: 0 1 calc(20% - 5px);
   background: #fff;
   background-image: url(${(props) => props.bgphoto});
   background-size: cover;
@@ -88,29 +88,31 @@ function SearchedList({ keyword }: ISearchedList) {
   return (
     <>
       <UlContent>
-        {data?.results.map((content) => (
-          <Box
-            layoutId={content.id + ""}
-            key={content.id}
-            variants={boxVariants}
-            whileHover="hover"
-            initial="normal"
-            transition={{ type: "tween" }}
-            bgphoto={
-              content.backdrop_path
-                ? makeImagePath(content.backdrop_path, "w500")
-                : process.env.PUBLIC_URL + "/img/content_background.png"
-            }
-          >
-            <Info variants={infoVariants}>
-              {"title" in content ? (
-                <h3>{content.title}</h3>
-              ) : "name" in content ? (
-                <h3>{content.name}</h3>
-              ) : null}
-            </Info>
-          </Box>
-        ))}
+        {data?.results
+          .filter((content) => content.media_type !== MediaType.person)
+          .map((content) => (
+            <Box
+              layoutId={content.id + ""}
+              key={content.id}
+              variants={boxVariants}
+              whileHover="hover"
+              initial="normal"
+              transition={{ type: "tween" }}
+              bgphoto={
+                content.backdrop_path
+                  ? makeImagePath(content.backdrop_path, "w500")
+                  : process.env.PUBLIC_URL + "/img/content_background.png"
+              }
+            >
+              <Info variants={infoVariants}>
+                {"title" in content ? (
+                  <h3>{content.title}</h3>
+                ) : "name" in content ? (
+                  <h3>{content.name}</h3>
+                ) : null}
+              </Info>
+            </Box>
+          ))}
       </UlContent>
     </>
   );
