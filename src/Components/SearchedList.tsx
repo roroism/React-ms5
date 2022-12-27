@@ -14,10 +14,10 @@ const UlContent = styled.ul`
   margin-top: 10px;
 `;
 
-const Box = styled(motion.li)<{ bgPhoto: string }>`
+const Box = styled(motion.li)<{ bgphoto: string }>`
   flex: 1 1 19%;
   background: #fff;
-  background-image: url(${(props) => props.bgPhoto});
+  background-image: url(${(props) => props.bgphoto});
   background-size: cover;
   background-position: center center;
   height: 200px;
@@ -96,7 +96,7 @@ function SearchedList({ keyword }: ISearchedList) {
             whileHover="hover"
             initial="normal"
             transition={{ type: "tween" }}
-            bgPhoto={
+            bgphoto={
               content.backdrop_path
                 ? makeImagePath(content.backdrop_path, "w500")
                 : process.env.PUBLIC_URL + "/img/content_background.png"

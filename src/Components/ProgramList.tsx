@@ -57,9 +57,9 @@ const Row = styled(motion.div)`
   width: 100%;
 `;
 
-const Box = styled(motion.div)<{ bgPhoto: string }>`
+const Box = styled(motion.div)<{ bgphoto: string }>`
   background-color: white;
-  background-image: url(${(props) => props.bgPhoto});
+  background-image: url(${(props) => props.bgphoto});
   background-size: cover;
   background-position: center center;
   height: 200px;
@@ -225,7 +225,7 @@ function ProgramList({
                   initial="normal"
                   transition={{ type: "tween" }}
                   onClick={() => onBoxClicked(content.id)}
-                  bgPhoto={
+                  bgphoto={
                     content.backdrop_path
                       ? makeImagePath(content.backdrop_path, "w500")
                       : process.env.PUBLIC_URL + "/img/content_background.png"
