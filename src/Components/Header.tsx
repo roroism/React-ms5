@@ -68,13 +68,13 @@ const Items = styled.ul`
 const Item = styled.li`
   margin-right: 20px;
   color: ${(props) => props.theme.white.darker};
-  transition: color 0.3s ease-in-out;
+  transition: color 0.3s;
   position: relative;
   display: flex;
   justify-content: center;
   flex-direction: column;
   &:hover {
-    color: ${(props) => props.theme.white.lighter};
+    color: #999999;
   }
 `;
 
