@@ -65,6 +65,7 @@ const Overview = styled(motion.p)`
   position: relative;
   font-size: 1rem;
   line-height: 1.5em;
+  overflow-y: scroll;
   &::first-letter {
     font-weight: 700;
     font-size: 1.7em;
@@ -76,6 +77,14 @@ const Overview = styled(motion.p)`
       font-size: 1rem;
       color: ${(props) => props.theme.white.darker};
     }
+  }
+  &::-webkit-scrollbar {
+    width: 5px;
+    height: 8px;
+    background-color: #777; /* 또는 트랙에 추가한다 */
+  }
+  &::-webkit-scrollbar-thumb {
+    background: #222;
   }
 `;
 
