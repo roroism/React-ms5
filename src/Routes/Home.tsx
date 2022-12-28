@@ -325,7 +325,15 @@ function Home() {
         <Loader>Loading</Loader>
       ) : (
         <>
-          <Banner bgphoto={makeImagePath(data?.results[0].backdrop_path || "")}>
+          <Banner
+            bgphoto={
+              data?.results[0].backdrop_path
+                ? makeImagePath(data?.results[0].backdrop_path)
+                : data?.results[0].poster_path
+                ? makeImagePath(data?.results[0].poster_path)
+                : ""
+            }
+          >
             <HiddenH2>MainVisual</HiddenH2>
             <Title>{data?.results[0].title}</Title>
             <Overview>{data?.results[0].overview}</Overview>
