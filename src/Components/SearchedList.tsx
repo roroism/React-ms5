@@ -3,6 +3,9 @@ import { MediaType, getMultiSearch, getMultiSearchResult } from "../api";
 import { motion } from "framer-motion";
 import { useQuery } from "react-query";
 import { makeImagePath } from "../utils";
+import { useSearchParams } from "react-router-dom";
+import PopupSearchedInfo from "./PopupSearchedInfo";
+import { useState } from "react";
 
 const UlContent = styled.ul`
   position: relative;
@@ -81,9 +84,28 @@ function SearchedList({ keyword }: ISearchedList) {
     () => getMultiSearch(keyword),
     { enabled: !!keyword }
   );
+  const [searchParam, setSearchParam] = useSearchParams();
+  const [mediaType, setMediaType] = useState<string>("");
 
   console.log(keyword);
   console.log("search data : ", data);
+
+  const onBoxClicked = (id: number, type: string) => {
+    // navigate(`/${list}/${id}`);
+    let params = {};
+    searchParam.forEach((value, key) => {
+      params = { ...params, [key]: value };
+    });
+    console.log("params : ", params);
+    setMediaType(type);
+    setSearchParam({ ...params, [type]: id.toString() });
+  };
+
+  const clickedContent = searchParam.get(mediaType)
+    ? data?.results.find(
+        (content) => String(content.id) === searchParam.get(mediaType)
+      )
+    : null;
 
   return (
     <>
@@ -98,6 +120,7 @@ function SearchedList({ keyword }: ISearchedList) {
               whileHover="hover"
               initial="normal"
               transition={{ type: "tween" }}
+              onClick={() => onBoxClicked(content.id, content.media_type)}
               bgphoto={
                 content.backdrop_path
                   ? makeImagePath(content.backdrop_path, "w500")
@@ -114,6 +137,7 @@ function SearchedList({ keyword }: ISearchedList) {
             </Box>
           ))}
       </UlContent>
+      {clickedContent && <PopupSearchedInfo clickedContent={clickedContent} />}
     </>
   );
 }
