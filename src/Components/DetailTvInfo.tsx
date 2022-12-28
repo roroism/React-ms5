@@ -77,6 +77,7 @@ const Overview = styled(motion.p)`
   font-size: 1rem;
   line-height: 1.5em;
   overflow-y: auto;
+  padding: 5px 2px;
   &::first-letter {
     font-weight: 700;
     font-size: 1.7em;
