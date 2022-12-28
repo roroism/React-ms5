@@ -118,7 +118,7 @@ function DetailMovieInfo({ movieId }: IDetailMovieInfoProps) {
     () => getMoviesDetail(movieId)
   );
 
-  console.log("movie detail : ", data);
+  // console.log("movie detail : ", data);
   return (
     <Wrapper>
       {isLoading ? null : (

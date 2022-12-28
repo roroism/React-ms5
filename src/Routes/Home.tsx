@@ -265,13 +265,13 @@ function Home() {
   const navigate = useNavigate();
   // const bigMoviematch = useMatch("/movies/:movieId");
   const [searchParam, setSearchParam] = useSearchParams();
-  console.log('searchParam.get("movies")', searchParam.get("movies"));
+  // console.log('searchParam.get("movies")', searchParam.get("movies"));
   const { scrollY } = useScroll();
   const { data, isLoading } = useQuery<IGetMoviesResult>(
     ["movies", "nowPlaying"],
     getMovies
   );
-  console.log("movies data : ", data);
+  // console.log("movies data : ", data);
   // console.log(data, isLoading);
   const [index, setIndex] = useState(0);
   const [leaving, setLeaving] = useState(false);

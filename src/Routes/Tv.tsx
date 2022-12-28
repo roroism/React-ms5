@@ -71,7 +71,7 @@ function Tv() {
     ["tv", "onTheAir"],
     getTvshows
   );
-  console.log("tv data : ", data);
+  // console.log("tv data : ", data);
 
   useEffect(() => {
     window.scrollTo(0, 0);

@@ -119,7 +119,7 @@ function DetailTvInfo({ tvId }: IDetailTvInfoProps) {
     getTvDetail(tvId)
   );
 
-  console.log("detail : ", data);
+  // console.log("detail : ", data);
   return (
     <Wrapper>
       {isLoading ? null : (

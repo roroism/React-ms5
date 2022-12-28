@@ -185,7 +185,7 @@ function Header() {
   const navigate: NavigateFunction = useNavigate();
   const { register, handleSubmit, setFocus } = useForm<IForm>();
   const onValid = (data: IForm) => {
-    console.log(data);
+    // console.log(data);
     navigate(`/search?keyword=${data.keyword}`);
   };
 

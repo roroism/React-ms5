@@ -87,8 +87,8 @@ function SearchedList({ keyword }: ISearchedList) {
   const [searchParam, setSearchParam] = useSearchParams();
   const [mediaType, setMediaType] = useState<string>("");
 
-  console.log(keyword);
-  console.log("search data : ", data);
+  // console.log(keyword);
+  // console.log("search data : ", data);
 
   const onBoxClicked = (id: number, type: string) => {
     // navigate(`/${list}/${id}`);
@@ -96,7 +96,7 @@ function SearchedList({ keyword }: ISearchedList) {
     searchParam.forEach((value, key) => {
       params = { ...params, [key]: value };
     });
-    console.log("params : ", params);
+    // console.log("params : ", params);
     setMediaType(type);
     setSearchParam({ ...params, [type]: id.toString() });
   };

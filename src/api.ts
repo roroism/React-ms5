@@ -105,19 +105,14 @@ export function getMovies() {
     (response) => response.json()
   );
 }
-// https://api.themoviedb.org/3/movie/now_playing?api_key=3f553d72b2c837a9f26caae0b3856de3
+// https://api.themoviedb.org/3/movie/now_playing?api_key=
 
 export function getTvshows() {
-  console.log(
-    "tv api url : ",
-    `${BASE_PATH}
-  /tv/on_the_air?api_key=${API_KEY}`
-  );
   return fetch(`${BASE_PATH}/tv/on_the_air?api_key=${API_KEY}`).then(
     (response) => response.json()
   );
 }
-// https://api.themoviedb.org/3/tv/on_the_air?api_key=3f553d72b2c837a9f26caae0b3856de3
+// https://api.themoviedb.org/3/tv/on_the_air?api_key=
 
 export function getMoviesDetail(movieId: string) {
   return fetch(`${BASE_PATH}/movie/${movieId}?api_key=${API_KEY}`).then(

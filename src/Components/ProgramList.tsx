@@ -152,7 +152,7 @@ function ProgramList({
   tvData,
 }: IProgramList) {
   const location = useLocation();
-  console.log("location : ", location);
+  // console.log("location : ", location);
   const [searchParam, setSearchParam] = useSearchParams();
   const [index, setIndex] = useState(0);
   const [leaving, setLeaving] = useState(false);

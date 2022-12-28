@@ -71,7 +71,7 @@ function Movie() {
     ["movies", "nowPlaying"],
     getMovies
   );
-  console.log("movie data : ", data);
+  // console.log("movie data : ", data);
 
   useEffect(() => {
     window.scrollTo(0, 0);
