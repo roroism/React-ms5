@@ -48,16 +48,27 @@ const Title = styled(motion.p)`
 `;
 
 const FirstAirDate = styled.span`
-  margin-right: 16px;
+  margin-right: 7px;
 `;
 
 const LastAirDate = styled.span`
-  margin-left: 16px;
+  margin-left: 7px;
+`;
+
+const BadgeTv = styled.span`
+  display: block;
+  color: ${(props) => props.theme.white.lighter};
+  border-radius: 3px;
+  background-color: green;
+  margin-left: 7px;
+  padding: 2px 7px;
+  font-weight: 700;
 `;
 
 const InnerDetailInfo = styled(motion.div)`
   margin-top: 10px;
   display: flex;
+  align-items: center;
 `;
 
 const Overview = styled(motion.p)`
@@ -65,7 +76,7 @@ const Overview = styled(motion.p)`
   position: relative;
   font-size: 1rem;
   line-height: 1.5em;
-  overflow-y: scroll;
+  overflow-y: auto;
   &::first-letter {
     font-weight: 700;
     font-size: 1.7em;
@@ -142,6 +153,7 @@ function DetailTvInfo({ tvId }: IDetailTvInfoProps) {
             >
               <FirstAirDate>{data?.first_air_date}</FirstAirDate>~
               <LastAirDate>{data?.last_air_date}</LastAirDate>
+              <BadgeTv>TV</BadgeTv>
             </InnerDetailInfo>
             {data?.overview ? (
               <Overview

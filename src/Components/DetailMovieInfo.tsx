@@ -47,15 +47,26 @@ const Title = styled(motion.p)`
   font-weight: 600;
 `;
 
-const ReleaseDate = styled(motion.span)``;
+const ReleaseDate = styled.span``;
 
-const Runtime = styled(motion.span)`
+const Runtime = styled.span`
   margin-left: 16px;
 `;
 
-const InnerDetailInfo = styled.div`
+const InnerDetailInfo = styled(motion.div)`
   margin-top: 10px;
   display: flex;
+  align-items: center;
+`;
+
+const BadgeMovie = styled.span`
+  display: block;
+  color: ${(props) => props.theme.white.lighter};
+  border-radius: 3px;
+  background-color: blue;
+  margin-left: 16px;
+  padding: 2px 7px;
+  font-weight: 700;
 `;
 
 const Overview = styled(motion.p)`
@@ -63,10 +74,26 @@ const Overview = styled(motion.p)`
   position: relative;
   font-size: 1rem;
   line-height: 1.5em;
+  overflow-y: auto;
   &::first-letter {
     font-weight: 700;
     font-size: 1.7em;
     color: rgba(299, 9, 20, 0.7);
+  }
+  &.noDes {
+    &::first-letter {
+      font-weight: 400;
+      font-size: 1rem;
+      color: ${(props) => props.theme.white.darker};
+    }
+  }
+  &::-webkit-scrollbar {
+    width: 5px;
+    height: 8px;
+    background-color: #777; /* 또는 트랙에 추가한다 */
+  }
+  &::-webkit-scrollbar-thumb {
+    background: #222;
   }
 `;
 
@@ -117,32 +144,38 @@ function DetailMovieInfo({ movieId }: IDetailMovieInfoProps) {
             >
               {data?.title}
             </Title>
-            <InnerDetailInfo>
-              <ReleaseDate
-                variants={variants}
-                initial="start"
-                animate="end"
-                transition={{ default: { duration: 0.5, delay: 0.2 } }}
-              >
-                {data?.release_date}
-              </ReleaseDate>
-              <Runtime
-                variants={variants}
-                initial="start"
-                animate="end"
-                transition={{ default: { duration: 0.5, delay: 0.2 } }}
-              >
-                {data?.runtime} min
-              </Runtime>
-            </InnerDetailInfo>
-            <Overview
+            <InnerDetailInfo
               variants={variants}
               initial="start"
               animate="end"
-              transition={{ default: { duration: 0.5, delay: 0.3 } }}
+              transition={{ default: { duration: 0.5, delay: 0.2 } }}
             >
-              {data?.overview}
-            </Overview>
+              <ReleaseDate>{data?.release_date}</ReleaseDate>
+              <Runtime>{data?.runtime} min</Runtime>
+              <BadgeMovie>Movie</BadgeMovie>
+            </InnerDetailInfo>
+            {data?.overview ? (
+              <Overview
+                variants={variants}
+                initial="start"
+                animate="end"
+                transition={{ default: { duration: 0.5, delay: 0.3 } }}
+              >
+                {data?.overview}
+              </Overview>
+            ) : (
+              <Overview
+                variants={variants}
+                initial="start"
+                animate="end"
+                transition={{ default: { duration: 0.5, delay: 0.3 } }}
+                className="noDes"
+              >
+                Description not ready
+                <br />
+                Coming Soon!!
+              </Overview>
+            )}
           </WrapDetailInfo>
         </>
       )}
