@@ -24,14 +24,14 @@ const WrapPoster = styled.div`
   padding: 25px 10px;
 `;
 
-const PosterBox = styled(motion.div)<{ bgPoster: string }>`
+const PosterBox = styled(motion.div)<{ bgposter: string }>`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   width: 100%;
   height: 100%;
-  background: no-repeat center / contain url(${(props) => props.bgPoster});
+  background: no-repeat center / contain url(${(props) => props.bgposter});
 `;
 
 const WrapDetailInfo = styled.article`
@@ -129,7 +129,7 @@ function DetailMovieInfo({ movieId }: IDetailMovieInfoProps) {
               initial="start"
               animate="end"
               transition={{ default: { duration: 0.5, delay: 0.1 } }}
-              bgPoster={
+              bgposter={
                 data?.poster_path
                   ? makeImagePath(data?.poster_path, "w500")
                   : process.env.PUBLIC_URL + "/img/content_background.png"
