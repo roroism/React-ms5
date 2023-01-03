@@ -5,9 +5,9 @@ import styled, { createGlobalStyle, ThemeProvider } from "styled-components";
 import App from "./App";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { theme } from "./theme";
+import { Helmet } from "react-helmet";
 
 const GlobalStyle = createGlobalStyle`
-@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400&display=swap');
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -90,6 +90,18 @@ root.render(
   <RecoilRoot>
     <QueryClientProvider client={queryClient}>
       <ThemeProvider theme={theme}>
+        <Helmet>
+          <link rel="preconnect" href="https://fonts.googleapis.com" />
+          <link
+            rel="preconnect"
+            href="https://fonts.gstatic.com"
+            crossOrigin=""
+          />
+          <link
+            href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400;700&display=swap"
+            rel="stylesheet"
+          />
+        </Helmet>
         <GlobalStyle />
         <H1>Netflix</H1>
         <App />
