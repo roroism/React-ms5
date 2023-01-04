@@ -183,11 +183,26 @@ function Header() {
   }, [scrollY, navAnimation]);
 
   const navigate: NavigateFunction = useNavigate();
-  const { register, handleSubmit, setFocus } = useForm<IForm>();
+  const { register, handleSubmit, setFocus, getValues, watch } =
+    useForm<IForm>();
+  const watchKeyword = watch("keyword", "");
+
   const onValid = (data: IForm) => {
-    // console.log(data);
+    // console.log("data : ", data);
     navigate(`/search?keyword=${data.keyword}`);
   };
+
+  useEffect(() => {
+    let timeout: NodeJS.Timeout;
+    if (watchKeyword.trim() !== "") {
+      timeout = setTimeout(() => {
+        handleSubmit(onValid)();
+      }, 500);
+    }
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, [watchKeyword]);
 
   return (
     <Nav
@@ -239,7 +254,7 @@ function Header() {
         </Items>
       </Col>
       <Col>
-        <Search onSubmit={handleSubmit(onValid)}>
+        <Search>
           <ButtonSearch
             type="button"
             onClick={toggleSearch}
@@ -260,12 +275,16 @@ function Header() {
           </ButtonSearch>
           <Input
             {...register("keyword", { required: true, minLength: 2 })}
+            type="text"
             onBlur={toggleSearch}
             animate={inputAnimation}
             initial={{ scaleX: 0 }}
             transition={{ type: "linear" }}
             // animate={{ scaleX: searchOpen ? 1 : 0 }}
             placeholder="Search for movie or tv show..."
+            onKeyPress={(e) => {
+              e.key === "Enter" && e.preventDefault();
+            }}
           />
         </Search>
       </Col>
